@@ -1,6 +1,14 @@
 input[name="name"], input[name="date"]{
     border : 0;
 }
+/* SECTION APP */
+
+#app{
+    position : relative;
+    height: 100vh;
+}
+
+/* CREATION SCREEN */
 
 #name-input, #date-input, #search{
     border : 1px solid rgb(136, 136, 136);
@@ -8,7 +16,32 @@ input[name="name"], input[name="date"]{
     padding: 1rem;
     padding-top : 0.3rem;
     padding-bottom : 0.3rem;
+    background-color : #fff
 }
+
+#create-friend{
+    position : absolute;
+    bottom : -28vh
+
+}
+
+#trigger-creation{
+    position : absolute;
+    bottom: 0;
+    background-color: #42BDE3;
+    height : 4rem;
+    color : #fff;
+    cursor : pointer;
+}
+
+#trigger-creation:hover, #create-friend{
+    bottom:0;
+}
+
+
+
+
+/* MAIN SCREEN */
 
 #search{
     background-color : rgb(241, 241, 241);
@@ -18,4 +51,12 @@ input[name="name"], input[name="date"]{
 #search:focus{
     background-color:#fff;
     transition: 0.3s
+}
+
+.slide-enter-active, .slide-leave-active {
+    transition : 0.3s;
+}
+.slide-enter, .slide-leave-to {
+    transform: translateY(28vh);
+    transition : 0.3s;
 }

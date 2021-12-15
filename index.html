@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <section id="app" class="d-flex flex-column container-fluid">
+    <section id="app" class="d-flex flex-column container-fluid align-items-center">
         <h1 class="text-center">Mes anniversaires</h1>
         <input v-model="searchKey" type="search" name="search" id="search" autocomplete="off"
             placeholder="Rechercher...">
@@ -27,25 +27,36 @@
                 <button @click="removeFriend(n)" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
             </p>
         </div>
-
-
-
-        <!-- Creation pop-up -->
-        <div class="d-flex flex-column" id="create-friend">
-
-            <div id="name-input" class="my-2">
-                <label for="name">Nom :</label>
-                <input v-model="newName" name="name" id="name" type="text">
-            </div>
-
-            <div id="date-input" class="my-2">
-                <label for="date">Date :</label>
-                <input v-model="newDate" name="date" id="date" type="date">
-            </div>
-
-            <button @click="addFriend" class="btn btn-primary"><i class="fas fa-user-plus"></i> Ajouter un anniversaire</button>
+        <!-- Trigger the creation pop-up -->
+        <div v-on:click="show = !show" id="trigger-creation" class="d-flex align-items-center w-100 justify-content-center">
+            <i class="fas fa-user-plus"></i>
+            <h2 class="mx-2">Ajouter un anniversaire</h2>
 
         </div>
+        
+            <transition name="slide">
+                <!-- Creation pop-up -->
+                <div v-if="!show" class="d-flex flex-column justify-content-center" id="create-friend">
+                    <h2>Ajouter un anniversaire</h2>
+                    <div id="name-input" class="my-2">
+                        <label for="name">Nom :</label>
+                        <input v-model="newName" name="name" id="name" type="text">
+                    </div>
+
+                    <div id="date-input" class="my-2">
+                        <label for="date">Date :</label>
+                        <input v-model="newDate" name="date" id="date" type="date">
+                    </div>
+
+                    <button @click="addFriend" class="btn btn-primary"><i class="fas fa-user-plus"></i> Ajouter un
+                        anniversaire</button>
+
+                </div>
+            </transition>
+        
+
+
+
 
 
 

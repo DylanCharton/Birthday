@@ -1,13 +1,13 @@
-const app = new Vue({
+let app = new Vue({
     el: '#app',
     data: {
         friends: [],
         newName: null,
         newDate: null,
-        searchKey:''
+        searchKey:'',
+        show : true,
     },
-    computed: {
-        mounted() {
+    mounted() {
             if (localStorage.getItem('friends')) {
                 try {
                     this.friends = JSON.parse(localStorage.getItem('friends'));
@@ -16,6 +16,8 @@ const app = new Vue({
                 }
             }
         },
+    computed: {
+        
         filteredList(){
             return this.friends.filter((friends) =>{
                 return friends.name.toLowerCase().includes(this.searchKey.toLowerCase())
