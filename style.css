@@ -1,0 +1,21 @@
+input[name="name"], input[name="date"]{
+    border : 0;
+}
+
+#name-input, #date-input, #search{
+    border : 1px solid rgb(136, 136, 136);
+    border-radius : 0.6rem;
+    padding: 1rem;
+    padding-top : 0.3rem;
+    padding-bottom : 0.3rem;
+}
+
+#search{
+    background-color : rgb(241, 241, 241);
+    transition:0.3s
+}
+
+#search:focus{
+    background-color:#fff;
+    transition: 0.3s
+}
