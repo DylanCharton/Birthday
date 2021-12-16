@@ -15,43 +15,81 @@
 
 <body>
     <section id="app" class="d-flex flex-column container-fluid align-items-center">
-        <h1 class="text-center">Mes anniversaires</h1>
+        <h1 class="text-center my-3">Mes Anniversaires</h1>
         <input v-model="searchKey" type="search" name="search" id="search" autocomplete="off"
-            placeholder="Rechercher...">
+            placeholder="Rechercher..." class="my-2">
         <span v-if="searchKey && filteredList.length >=1">
             {{ filteredList.length }} résultat<span v-if="searchKey && filteredList.length >= 2">s</span>
         </span>
-        <div v-for="(friend, n) in filteredList">
-            <p>
-                <span class="friends">{{ friend.name }}</span>
-                <button @click="removeFriend(n)" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-            </p>
+        <div v-for="friend in filteredList" :key="friend.id" class="w-100 d-flex">
+            
+            
+            <div class="d-flex w-100">
+                
+                <div @click="getUser(friend.id), showOne = !showOne" class="d-flex flex-column col-10">
+                
+                    <div class="d-flex justify-content-between">
+                        <div class="col-2">
+                            <div id="supposed-to-be-an-img" class="ms-1">
+    
+                            </div>
+                        </div>
+                        <div class="col-10 ms-2">
+                           <p class="friends-name">{{ friend.name }}</p> 
+                           <p class="friends-birth">est né.e le {{ friend.date }}</p>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="col-2" id="trash">
+                    <button @click="removeFriend(friend.id)" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                </div>
+            </div>
+
         </div>
         <!-- Trigger the creation pop-up -->
-        <div v-on:click="show = !show" id="trigger-creation" class="d-flex align-items-center w-100 justify-content-center">
+        <div v-on:click="showCreate = !showCreate" id="trigger-creation" class="d-flex align-items-center w-100 justify-content-center">
             <i class="fas fa-user-plus"></i>
             <h2 class="mx-2">Ajouter un anniversaire</h2>
 
         </div>
         
-            <transition name="slide">
+            <transition name="slideCreate">
                 <!-- Creation pop-up -->
-                <div v-if="!show" class="d-flex flex-column justify-content-center" id="create-friend">
-                    <h2>Ajouter un anniversaire</h2>
-                    <div id="name-input" class="my-2">
+                <div v-if="!showCreate" class="d-flex flex-column justify-content-center w-100" id="create-friend">
+                    <h2 class="text-center pt-2">Ajouter un anniversaire</h2>
+                    <div id="name-input" class="m-2">
                         <label for="name">Nom :</label>
                         <input v-model="newName" name="name" id="name" type="text">
                     </div>
 
-                    <div id="date-input" class="my-2">
+                    <div id="date-input" class="m-2">
                         <label for="date">Date :</label>
-                        <input v-model="newDate" name="date" id="date" type="date">
+                        <input v-model="newDate"  name="date" id="date" type="date">
                     </div>
+                    <div class="d-flex justify-content-between pb-3">
+                        <button @click="showCreate = !showCreate" class="btn btn-primary mx-3">Retour</button>
 
-                    <button @click="addFriend" class="btn btn-primary"><i class="fas fa-user-plus"></i> Ajouter un
+                        <button @click="addFriend(), showCreate = !showCreate" class="btn btn-primary mx-3"><i class="fas fa-user-plus"></i> Ajouter un
                         anniversaire</button>
+                    </div>
+                    
 
                 </div>
+            </transition>
+
+            <!-- Screen of one friend -->
+            <transition name="slideOne">
+                <div id="oneFriend" v-if="!showOne">
+                    <h2 class="text-center">Mon ami</h2>
+                    <button @click="showOne = !showOne"><i class="fas fa-times"></i></button>
+                    <div>
+                        {{name}}
+                    </div>
+                </div>
+
             </transition>
         
 

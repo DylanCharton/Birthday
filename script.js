@@ -5,7 +5,8 @@ let app = new Vue({
         newName: null,
         newDate: null,
         searchKey:'',
-        show : true,
+        showCreate : true,
+        showOne : true,
     },
     mounted() {
             if (localStorage.getItem('friends')) {
@@ -23,7 +24,12 @@ let app = new Vue({
                 return friends.name.toLowerCase().includes(this.searchKey.toLowerCase())
             })
         },
+        calculateDays(){
+            let today = new Date();
+            let birthday = new Date();
+        },
     },
+        
     
 
     methods: {
@@ -33,7 +39,10 @@ let app = new Vue({
                 return;
             }
 
+            let id = this.generateId();
+
             this.friends.push({
+                id : id,
                 name: this.newName,
                 date: this.newDate
             });
@@ -48,6 +57,13 @@ let app = new Vue({
         saveFriends() {
             const parsed = JSON.stringify(this.friends);
             localStorage.setItem('friends', parsed);
+        },
+        generateId(){
+            let id = this.friends.length;
+            return id;
+        },
+        getUser(who){
+            this.name = this.friends[who].name;
         }
     }
 })

@@ -7,10 +7,13 @@ input[name="name"], input[name="date"]{
     position : relative;
     height: 100vh;
 }
+.container-fluid{
+    padding : 0;
+}
 
 /* CREATION SCREEN */
 
-#name-input, #date-input, #search{
+#name-input, #date-input{
     border : 1px solid rgb(136, 136, 136);
     border-radius : 0.6rem;
     padding: 1rem;
@@ -19,9 +22,17 @@ input[name="name"], input[name="date"]{
     background-color : #fff
 }
 
+
+
 #create-friend{
     position : absolute;
-    bottom : -28vh
+    bottom : -34vh;
+    background-color : #fff;
+    border-radius : 0.5rem;
+    -webkit-box-shadow: 0px 0px 16px -6px rgba(0,0,0,0.30); 
+    box-shadow: 0px 0px 16px -6px rgba(0,0,0,0.30);
+    
+
 
 }
 
@@ -39,12 +50,17 @@ input[name="name"], input[name="date"]{
 }
 
 
-
-
 /* MAIN SCREEN */
-
+p{
+    margin : 0;
+}
 #search{
-    background-color : rgb(241, 241, 241);
+    border : 1px solid rgb(204, 204, 204);
+    border-radius : 1rem;
+    padding: 1rem;
+    padding-top : 0.3rem;
+    padding-bottom : 0.3rem;
+    background-color : rgb(243, 243, 243);
     transition:0.3s
 }
 
@@ -53,10 +69,46 @@ input[name="name"], input[name="date"]{
     transition: 0.3s
 }
 
-.slide-enter-active, .slide-leave-active {
+.slideCreate-enter-active, .slideCreate-leave-active {
     transition : 0.3s;
 }
-.slide-enter, .slide-leave-to {
-    transform: translateY(28vh);
+.slideCreate-enter, .slideCreate-leave-to {
+    transform: translateY(34vh);
+    transition : 0.3s;
+}
+
+.friends-birth{
+    font-size : 0.8rem;
+}
+.friends-name{
+    font-size : 1.2rem;
+}
+#trash{
+    z-index : 10;
+}
+
+/* Placeholder class */
+#supposed-to-be-an-img{
+    background-color : grey;
+    border-radius: 0.7rem;
+    width: 100%;
+    height : 100%
+}
+
+/* One friend screen */
+#oneFriend{
+    position : absolute;
+    right:0;
+    background-color : #fff;
+    height: 100vh;
+    width: 100vw;
+    z-index:11;
+}
+
+.slideOne-enter-active, .slideOne-leave-active {
+    transition : 0.3s;
+}
+.slideOne-enter, .slideOne-leave-to {
+    transform: translateX(100vw);
     transition : 0.3s;
 }
