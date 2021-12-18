@@ -21,77 +21,123 @@
         <span v-if="searchKey && filteredList.length >=1">
             {{ filteredList.length }} résultat<span v-if="searchKey && filteredList.length >= 2">s</span>
         </span>
+        <span v-if="searchKey && filteredList.length == []">
+            Pas de résultats pour cette recherche.
+        </span>
+        <div v-if="!searchKey && filteredList.length == []" id="empty-list-msg" class="mt-5 px-3 text-center">
+            <h2 class="text-center">Vous n'avez pas encore d'anniversaires dans votre liste</h2>
+            <i class="far fa-sad-tear"></i>
+        </div>
         <div v-for="friend in filteredList" :key="friend.id" class="w-100 d-flex">
             
-            
-            <div class="d-flex w-100">
-                
+
+            <div class="d-flex w-100 py-2" id="friend">
+
                 <div @click="getUser(friend.id), showOne = !showOne" class="d-flex flex-column col-10">
-                
+
                     <div class="d-flex justify-content-between">
                         <div class="col-2">
                             <div id="supposed-to-be-an-img" class="ms-1">
-    
+
                             </div>
                         </div>
                         <div class="col-10 ms-2">
-                           <p class="friends-name">{{ friend.name }}</p> 
-                           <p class="friends-birth">est né.e le {{ friend.date }}</p>
+                            <p class="friends-name">{{ friend.name }}</p>
+                            <p class="friends-birth">est né.e le {{ friend.date }}</p>
                         </div>
-                        
-                        
+
+
                     </div>
-                    
+
                 </div>
                 <div class="col-2" id="trash">
-                    <button @click="removeFriend(friend.id)" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                    <button @click="removeFriend(friend.id)" class="btn btn-outline-danger"><i
+                            class="far fa-trash-alt"></i></button>
                 </div>
             </div>
 
         </div>
         <!-- Trigger the creation pop-up -->
-        <div v-on:click="showCreate = !showCreate" id="trigger-creation" class="d-flex align-items-center w-100 justify-content-center">
+        <div v-on:click="showCreate = !showCreate" id="trigger-creation"
+            class="d-flex align-items-center w-100 justify-content-center">
             <i class="fas fa-user-plus"></i>
             <h2 class="mx-2">Ajouter un anniversaire</h2>
 
         </div>
-        
-            <transition name="slideCreate">
-                <!-- Creation pop-up -->
-                <div v-if="!showCreate" class="d-flex flex-column justify-content-center w-100" id="create-friend">
-                    <h2 class="text-center pt-2">Ajouter un anniversaire</h2>
-                    <div id="name-input" class="m-2">
-                        <label for="name">Nom :</label>
-                        <input v-model="newName" name="name" id="name" type="text">
-                    </div>
 
-                    <div id="date-input" class="m-2">
-                        <label for="date">Date :</label>
-                        <input v-model="newDate"  name="date" id="date" type="date">
-                    </div>
-                    <div class="d-flex justify-content-between pb-3">
-                        <button @click="showCreate = !showCreate" class="btn btn-primary mx-3">Retour</button>
+        <transition name="slideCreate">
+            <!-- Friend creation -->
+            <div v-if="!showCreate" class="d-flex flex-column justify-content-center w-100" id="create-friend">
+                <h2 class="text-center pt-2">Ajouter un anniversaire</h2>
+                <div id="name-input" class="m-2">
+                    <label for="name">Nom :</label>
+                    <input v-model="newName" name="name" id="name" type="text">
+                </div>
 
-                        <button @click="addFriend(), showCreate = !showCreate" class="btn btn-primary mx-3"><i class="fas fa-user-plus"></i> Ajouter un
+                <div id="date-input" class="m-2">
+                    <label for="date">Date :</label>
+                    <input v-model="newDate" name="date" id="date" type="date">
+                </div>
+                <div class="d-flex justify-content-between pb-3">
+                    <button @click="showCreate = !showCreate" class="btn btn-primary mx-3">Retour</button>
+
+                    <button @click="addFriend(), showCreate = !showCreate" class="btn btn-primary mx-3"><i
+                            class="fas fa-user-plus"></i> Ajouter un
                         anniversaire</button>
-                    </div>
-                    
-
-                </div>
-            </transition>
-
-            <!-- Screen of one friend -->
-            <transition name="slideOne">
-                <div id="oneFriend" v-if="!showOne">
-                    <h2 class="text-center">Mon ami</h2>
-                    <button @click="showOne = !showOne"><i class="fas fa-times"></i></button>
-                    <div>
-                        {{name}}
-                    </div>
                 </div>
 
-            </transition>
-        
+
+            </div>
+        </transition>
+
+        <!-- Screen of one friend -->
+        <transition name="slideOne">
+            <div id="oneFriend" v-if="!showOne">
+                <i @click="showOne = !showOne" class="fas fa-chevron-left ms-3"></i>
+                <div>
+                    <h2>Profil</h2>
+                    <div class="img-wrapper">
+                        <!-- <img src="assets/img/random.jpg"  alt="Picture of my friend"> -->
+                    </div>
+                </div>
+                <div>
+                    {{name}}
+                </div>
+
+                <div v-on:click="showCreateGift = !showCreateGift" id="trigger-creation"
+                    class="d-flex align-items-center w-100 justify-content-center">
+                    <i class="fas fa-gift"></i>
+                    <h2 class="mx-2">Ajouter un cadeau</h2>
+
+                </div>
+            </div>
+
+
+        </transition>
+
+        <!-- Gift creation -->
+        <transition name="slideCreateGift">
+            <!-- Friend creation -->
+            <div v-if="!showCreateGift" class="d-flex flex-column justify-content-center w-100" id="create-gift">
+                <h2 class="text-center pt-2">Ajouter un cadeau</h2>
+                <div id="name-input" class="m-2">
+                    <label for="year">Nombre :</label>
+                    <input v-model="newYear" name="year" id="year" type="number">
+                </div>
+
+                <div id="date-input" class="m-2">
+                    <label for="date">Cadeau</label>
+                    <input v-model="newGift" name="gift" id="gift" type="gift">
+                </div>
+                <div class="d-flex justify-content-between pb-3">
+                    <button @click="showCreateGift = !showCreateGift" class="btn btn-primary mx-3">Retour</button>
+
+                    <button @click="showCreateGift = !showCreateGift" class="btn btn-primary mx-3"><i
+                            class="fas fa-user-plus"></i> Ajouter un
+                        anniversaire</button>
+                </div>
+            </div>
+        </transition>
 
 
 

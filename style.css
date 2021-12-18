@@ -24,7 +24,7 @@ input[name="name"], input[name="date"]{
 
 
 
-#create-friend{
+#create-friend, #create-gift{
     position : absolute;
     bottom : -34vh;
     background-color : #fff;
@@ -71,10 +71,12 @@ p{
 
 .slideCreate-enter-active, .slideCreate-leave-active {
     transition : 0.3s;
+    opacity : 1;
 }
 .slideCreate-enter, .slideCreate-leave-to {
     transform: translateY(34vh);
-    transition : 0.3s;
+    transition : 0.4s;
+    opacity : 0;
 }
 
 .friends-birth{
@@ -85,6 +87,18 @@ p{
 }
 #trash{
     z-index : 10;
+}
+
+#friend{
+    border-top : 1px solid rgb(153, 153, 153)
+}
+
+#empty-list-msg > h2{
+    color: rgb(136, 136, 136);
+}
+#empty-list-msg > i{
+    color: rgb(136, 136, 136);
+    font-size : 4rem;
 }
 
 /* Placeholder class */
@@ -107,8 +121,27 @@ p{
 
 .slideOne-enter-active, .slideOne-leave-active {
     transition : 0.3s;
+    opacity: 1;
 }
 .slideOne-enter, .slideOne-leave-to {
     transform: translateX(100vw);
     transition : 0.3s;
+    opacity : 0;
+}
+.slideCreateGift-enter-active, .slideCreateGift-leave-active {
+    transition : 0.3s;
+}
+.slideCreateGift-enter, .slideCreateGift-leave-to {
+    transform: translateY(34vh);
+    transition : 0.3s;
+}
+
+.img-wrapper{
+    height : 6rem;
+    width : 6rem;
+    background-image: url('assets/img/random.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border: solid 1px #000;
 }

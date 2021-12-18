@@ -7,6 +7,9 @@ let app = new Vue({
         searchKey:'',
         showCreate : true,
         showOne : true,
+        showCreateGift : true,
+        newGift : null,
+        newYear : null,
     },
     mounted() {
             if (localStorage.getItem('friends')) {
@@ -51,8 +54,15 @@ let app = new Vue({
             this.saveFriends();
         },
         removeFriend(x) {
+            
             this.friends.splice(x, 1);
             this.saveFriends();
+            if (this.friends[x].id != x){
+                this.friends[x].id = x;
+                
+            }
+            
+            
         },
         saveFriends() {
             const parsed = JSON.stringify(this.friends);
