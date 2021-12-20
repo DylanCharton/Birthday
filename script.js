@@ -85,18 +85,28 @@ let app = new Vue({
             if (!this.newYear && !this.newGift) {
                 return;
             }
-            
-            
-            let newGift = this.gifts.push({
-                id : who,
+            giftId = this.generateId();
+
+            if(giftId != who){
+                giftId = who;
+                
+            }
+            let newGift = {
+                id : giftId,
+                friendId : who,
                 year : this.newYear,
                 gift : this.newGift,
-
-            });
+            }
+            this.gifts.push(newGift);
+            
+            this.friends[who].gifts.push(newGift);
+            
+            
             this.newYear = '';
             this.newgift = '';
 
-            // this.friends[who].gift.push(newGift);
+            
+            this.saveFriends();
 
         }
     }
