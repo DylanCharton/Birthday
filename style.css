@@ -1,4 +1,4 @@
-input[name="name"], input[name="date"]{
+input[name="name"], input[name="date"], input[name="year"], input[name="gift"]{
     border : 0;
 }
 /* SECTION APP */
@@ -13,7 +13,7 @@ input[name="name"], input[name="date"]{
 
 /* CREATION SCREEN */
 
-#name-input, #date-input{
+#name-input, #date-input, #year-input, #gift-input{
     border : 1px solid rgb(136, 136, 136);
     border-radius : 0.6rem;
     padding: 1rem;
@@ -24,7 +24,7 @@ input[name="name"], input[name="date"]{
 
 
 
-#create-friend, #create-gift{
+#create-friend{
     position : absolute;
     bottom : -34vh;
     background-color : #fff;
@@ -128,20 +128,43 @@ p{
     transition : 0.3s;
     opacity : 0;
 }
-.slideCreateGift-enter-active, .slideCreateGift-leave-active {
+.slideGift-enter-active, .slideGift-leave-active {
     transition : 0.3s;
+    opacity: 1;
 }
-.slideCreateGift-enter, .slideCreateGift-leave-to {
+.slideGift-enter, .slideGift-leave-to {
     transform: translateY(34vh);
     transition : 0.3s;
+    opacity : 0;
 }
 
 .img-wrapper{
-    height : 6rem;
-    width : 6rem;
+    height : 10rem;
+    width : 10rem;
     background-image: url('assets/img/random.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    border: solid 1px #000;
+    border: solid 3px rgb(255, 255, 255);
+    border-radius: 50%;
+    position: absolute;
+    top: 6rem;
+}
+
+#top-part{
+    background-color: #42BDE3;
+    height : 33vh;
+}
+#top-part > h2{
+    color: #fff;
+}
+
+#create-gift{
+    z-index : 999;
+    position : absolute;
+    bottom : 0vh;
+    background-color : #fff;
+    border-radius : 0.5rem;
+    -webkit-box-shadow: 0px 0px 16px -6px rgba(0,0,0,0.30); 
+    box-shadow: 0px 0px 16px -6px rgba(0,0,0,0.30);
 }

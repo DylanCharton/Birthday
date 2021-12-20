@@ -8,6 +8,7 @@ let app = new Vue({
         showCreate : true,
         showOne : true,
         showCreateGift : true,
+        gifts:[],
         newGift : null,
         newYear : null,
     },
@@ -47,7 +48,8 @@ let app = new Vue({
             this.friends.push({
                 id : id,
                 name: this.newName,
-                date: this.newDate
+                date: this.newDate,
+                gifts : [],
             });
             this.newName = '';
             this.newDate = '';
@@ -74,6 +76,28 @@ let app = new Vue({
         },
         getUser(who){
             this.name = this.friends[who].name;
+            this.date = this.friends[who].date;
+            this.id = this.friends[who].id;
+            // this.gifts = this.friends[who].gifts
+            
+        },
+        addGift(who){
+            if (!this.newYear && !this.newGift) {
+                return;
+            }
+            
+            
+            let newGift = this.gifts.push({
+                id : who,
+                year : this.newYear,
+                gift : this.newGift,
+
+            });
+            this.newYear = '';
+            this.newgift = '';
+
+            // this.friends[who].gift.push(newGift);
+
         }
     }
 })
