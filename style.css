@@ -54,7 +54,7 @@ input[name="name"], input[name="date"], input[name="year"], input[name="gift"]{
 p{
     margin : 0;
 }
-#search{
+#search, #searchGift{
     border : 1px solid rgb(204, 204, 204);
     border-radius : 1rem;
     padding: 1rem;
@@ -167,4 +167,11 @@ p{
     border-radius : 0.5rem;
     -webkit-box-shadow: 0px 0px 16px -6px rgba(0,0,0,0.30); 
     box-shadow: 0px 0px 16px -6px rgba(0,0,0,0.30);
+}
+
+.fa-dot-circle{
+    color :#42BDE3;
+}
+#gift-name{
+    font-weight: 600;
 }

@@ -5,10 +5,11 @@ let app = new Vue({
         newName: null,
         newDate: null,
         searchKey:'',
+        searchGift:'',
         showCreate : true,
         showOne : true,
         showCreateGift : true,
-        gifts:[],
+        
         newGift : null,
         newYear : null,
     },
@@ -16,6 +17,7 @@ let app = new Vue({
             if (localStorage.getItem('friends')) {
                 try {
                     this.friends = JSON.parse(localStorage.getItem('friends'));
+                    this.gifts = JSON.parse(localStorage.getItem('gifts'));
                 } catch (e) {
                     localStorage.removeItem('friends');
                 }
@@ -28,10 +30,16 @@ let app = new Vue({
                 return friends.name.toLowerCase().includes(this.searchKey.toLowerCase())
             })
         },
-        calculateDays(){
-            let today = new Date();
-            let birthday = new Date();
+        filteredGift(){
+            return this.friends.filter((giftList)=>{
+                // console.log(giftList.gifts)
+                // return giftList.gifts.toLowerCase().includes(this.searchGift.toLowerCase())
+            })
+
+            
+            
         },
+        
     },
         
     
@@ -67,8 +75,10 @@ let app = new Vue({
             
         },
         saveFriends() {
-            const parsed = JSON.stringify(this.friends);
-            localStorage.setItem('friends', parsed);
+            const parsedFriends = JSON.stringify(this.friends);
+            localStorage.setItem('friends', parsedFriends);
+            const parsedGifts = JSON.stringify(this.gifts);
+            localStorage.setItem('gifts', parsedGifts);
         },
         generateId(){
             let id = this.friends.length;
@@ -78,7 +88,8 @@ let app = new Vue({
             this.name = this.friends[who].name;
             this.date = this.friends[who].date;
             this.id = this.friends[who].id;
-            // this.gifts = this.friends[who].gifts
+            this.gifts = this.friends[who].gifts
+            
             
         },
         addGift(who){
@@ -97,7 +108,7 @@ let app = new Vue({
                 year : this.newYear,
                 gift : this.newGift,
             }
-            this.gifts.push(newGift);
+            
             
             this.friends[who].gifts.push(newGift);
             
