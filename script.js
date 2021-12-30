@@ -30,15 +30,6 @@ let app = new Vue({
                 return friends.name.toLowerCase().includes(this.searchKey.toLowerCase())
             })
         },
-        filteredGift(){
-            return this.friends.filter((giftList)=>{
-                // console.log(giftList.gifts)
-                // return giftList.gifts.toLowerCase().includes(this.searchGift.toLowerCase())
-            })
-
-            
-            
-        },
         
     },
         
@@ -73,6 +64,11 @@ let app = new Vue({
             }
             
             
+        },
+        removeGift(x){
+
+            this.friends[x].gifts.splice(x, 1);
+            this.saveFriends();
         },
         saveFriends() {
             const parsedFriends = JSON.stringify(this.friends);
@@ -119,6 +115,68 @@ let app = new Vue({
             
             this.saveFriends();
 
+        },
+        getAge(birthdate){
+            let date = new Date();
+            let year = date.getFullYear();
+            let birthyear = new Date(birthdate).getFullYear();
+            let age = year - birthyear;
+            countdown = this.countdown(birthdate);
+
+            
+
+            // trying to change the age dynamically because it only reacts to the year and not the month or day
+            let friendDate = new Date(birthdate)
+            let friendMonth = friendDate.getUTCMonth();
+            let friendDay = friendDate.getUTCDate();
+
+            let currentMonth = date.getUTCMonth();
+            let currentDay = date.getUTCDate();
+    
+
+            console.log(currentMonth+1)
+            console.log(currentDay)
+
+            if(currentMonth < friendMonth){
+                age = age - 1
+                console.log(age)
+            } else if (currentMonth == friendMonth){
+
+                if(currentDay < friendDay){
+                    age = age - 1
+                }
+            }
+
+            
+
+
+            return age;
+        },
+        countdown(birthdate){
+            let date = new Date();
+            let year = date.getFullYear();
+            let friendDate = new Date(birthdate)
+            let friendMonth = friendDate.getUTCMonth();
+            let friendDay = friendDate.getUTCDate();
+            let countdown = new Date(year, friendMonth, friendDay)
+
+            
+
+            if (date.getMonth()+1 > friendMonth && date.getDate()+1 > friendDay){
+                countdown.setFullYear(countdown.getFullYear()+1);
+            }
+            let unixDay = 86400000;
+            finalCountdown = Math.ceil((countdown.getTime() - date.getTime()) / (unixDay))
+
+            if(finalCountdown == 365){
+                finalCountdown = "Aujourd'hui";
+            } else if(finalCountdown == 1){
+                finalCountdown = "Demain"
+            } else {
+                finalCountdown = "dans " + finalCountdown + " jours"
+            }
+
+            return finalCountdown;
         }
     }
 })
