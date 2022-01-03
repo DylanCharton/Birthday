@@ -124,7 +124,6 @@ let app = new Vue({
             countdown = this.countdown(birthdate);
 
             
-
             // trying to change the age dynamically because it only reacts to the year and not the month or day
             let friendDate = new Date(birthdate)
             let friendMonth = friendDate.getUTCMonth();
