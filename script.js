@@ -102,7 +102,8 @@ let app = new Vue({
             this.name = this.friends[who].name;
             this.date = this.friends[who].date;
             this.id = this.friends[who].id;
-            this.gifts = this.friends[who].gifts
+            this.gifts = this.friends[who].gifts;
+            this.picture = this.friends[who].picture;
             
             
             
@@ -132,6 +133,23 @@ let app = new Vue({
             this.saveFriends();
 
         },
+        getBaseSixtyFour(){
+            const file = document.querySelector('input[type="file"]').files[0];
+            
+            const reader = new FileReader();
+            
+            reader.onloadend = function(){
+                app.newPhoto = reader.result
+                console.log(app.newPhoto);
+
+                
+            };
+            reader.readAsDataURL(file);
+            console.log(file)
+
+
+            
+        },
         getAge(birthdate){
             let date = new Date();
             let year = date.getFullYear();
@@ -147,14 +165,10 @@ let app = new Vue({
 
             let currentMonth = date.getUTCMonth();
             let currentDay = date.getUTCDate();
-    
-
-            console.log(currentMonth+1)
-            console.log(currentDay)
 
             if(currentMonth < friendMonth){
                 age = age - 1
-                console.log(age)
+                
             } else if (currentMonth == friendMonth){
 
                 if(currentDay < friendDay){
@@ -204,22 +218,6 @@ let app = new Vue({
             
             this.saveFriends();
         },
-        getBaseSixtyFour(){
-            const file = document.querySelector('input[type="file"]').files[0];
-            
-            const reader = new FileReader();
-            
-            reader.onloadend = function(){
-                app.newPhoto = reader.result
-                console.log(app.newPhoto);
-
-                
-            };
-            reader.readAsDataURL(file);
-            console.log(file)
-
-
-            
-        }
+        
     }
 })

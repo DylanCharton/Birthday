@@ -108,6 +108,9 @@ p{
     width: 100%;
     height : 100%
 }
+#supposed-to-be-an-img > img {
+    width: 15vw;
+}
 
 /* One friend screen */
 #oneFriend{
