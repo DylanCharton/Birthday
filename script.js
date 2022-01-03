@@ -9,7 +9,8 @@ let app = new Vue({
         showCreate : true,
         showOne : true,
         showCreateGift : true,
-        
+        friendIndex : "",
+        newPhoto : "",
         newGift : null,
         newYear : null,
     },
@@ -31,9 +32,9 @@ let app = new Vue({
             })
         },
         filteredGift(){
-            return this.friends.filter((giftList)=>{
-                // console.log(giftList.gifts)
-                // return giftList.gifts.toLowerCase().includes(this.searchGift.toLowerCase())
+            
+            return this.friends[this.friendIndex].gifts.filter((giftList) =>{
+                return giftList.gift.toLowerCase().includes(this.searchGift.toLowerCase())
             })
 
             
@@ -42,8 +43,6 @@ let app = new Vue({
         
     },
         
-    
-
     methods: {
         addFriend() {
             // s'assurer que l'utilisateur a entré quelque chose
@@ -52,26 +51,30 @@ let app = new Vue({
             }
 
             let id = this.generateId();
-
+            this.getBaseSixtyFour()
+            console.log(this.newPhoto)
             this.friends.push({
                 id : id,
                 name: this.newName,
                 date: this.newDate,
                 gifts : [],
+                picture : this.newPhoto,
             });
             this.newName = '';
             this.newDate = '';
             this.saveFriends();
         },
         removeFriend(x) {
-            
+
             this.friends.splice(x, 1);
-            this.saveFriends();
-            if (this.friends[x].id != x){
-                this.friends[x].id = x;
-                
+            for(i = 0; i < this.friends.length; i++){
+
+                this.friends[i].id = i;
+
             }
             
+            
+            this.saveFriends();
             
         },
         saveFriends() {
@@ -84,11 +87,18 @@ let app = new Vue({
             let id = this.friends.length;
             return id;
         },
+        generateGiftId(x){
+            let id = this.friends[x].gifts.length;
+            
+            return id;
+        },
         getUser(who){
+            this.friendIndex = who;
             this.name = this.friends[who].name;
             this.date = this.friends[who].date;
             this.id = this.friends[who].id;
             this.gifts = this.friends[who].gifts
+            
             
             
         },
@@ -96,12 +106,9 @@ let app = new Vue({
             if (!this.newYear && !this.newGift) {
                 return;
             }
-            giftId = this.generateId();
+            giftId = this.generateGiftId(who);
+            
 
-            if(giftId != who){
-                giftId = who;
-                
-            }
             let newGift = {
                 id : giftId,
                 friendId : who,
@@ -119,6 +126,34 @@ let app = new Vue({
             
             this.saveFriends();
 
+        },
+        removeGift(x, index){
+
+            this.friends[x].gifts.splice(index, 1);
+            
+            for(i = 0; i < this.friends[x].gifts.length; i++){
+                
+                this.friends[x].gifts[i].id = i;
+            }
+            
+            this.saveFriends();
+        },
+        getBaseSixtyFour(){
+            const file = document.querySelector('input[type="file"]').files[0];
+            
+            const reader = new FileReader();
+            
+            reader.onloadend = function(){
+                app.newPhoto = reader.result
+                console.log(app.newPhoto);
+
+                
+            };
+            reader.readAsDataURL(file);
+            console.log(file)
+
+
+            
         }
     }
 })
