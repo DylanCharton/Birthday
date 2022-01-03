@@ -28,7 +28,7 @@
             <h2 class="text-center">Vous n'avez pas encore d'anniversaires dans votre liste</h2>
             <i class="far fa-sad-tear"></i>
         </div>
-        <div v-for="friend in filteredList" :key="friend.id" class="w-100 d-flex">
+        <div v-for="(friend, index) in filteredList" :key="friend.id" class="w-100 d-flex">
             
 
             <div class="d-flex w-100 py-2" id="friend">
@@ -51,7 +51,7 @@
 
                 </div>
                 <div class="col-2" id="trash">
-                    <button @click="removeFriend(friend.id)" class="btn btn-outline-danger"><i
+                    <button @click="removeFriend(index)" class="btn btn-outline-danger"><i
                             class="far fa-trash-alt"></i></button>
                 </div>
             </div>
@@ -78,6 +78,10 @@
                     <label for="date">Date :</label>
                     <input v-model="newDate" name="date" id="date" type="date">
                 </div>
+                <div id="file-input" class="m-2 mb-4">
+                    <label for="photo">Photo :</label>
+                    <input @change="getBaseSixtyFour()" name="photo" id="photo" type="file">
+                </div>
                 <div class="d-flex justify-content-between pb-3">
                     <button @click="showCreate = !showCreate" class="btn btn-primary mx-3">Retour</button>
 
@@ -100,6 +104,7 @@
                     </div>
                     <h2>Profil</h2>
                     <div class="img-wrapper">
+                        <img v-bind:src="picture" alt="un truc">
                         <!-- Later on I will put some imbricated style to put the dynamic img of the person as a background, the css class is ready -->
                     </div>
                 </div>
@@ -110,6 +115,7 @@
                     <p> {{getAge(date)}} ans</p>
                     <p>{{ countdown(date)}}</p>
                     
+                    
                 </div>
 
                 <div>
@@ -118,13 +124,23 @@
                         placeholder="Rechercher un cadeau..." class="my-2">
                         
                     </div>
-                    <div v-for="gift in this.friends[id].gifts">
-                        <hr>
-                        <div class="d-flex justify-content-between w-100 px-3" id="oneGift">
-                            
-                            <span id="gift-name"><i class="fas fa-dot-circle"></i> {{ gift.gift}}</span>
-                            <span>{{ gift.year }} </span>
-                            
+                    <div id="gift-list">
+                        <div v-for="(gift, index) in filteredGift" >
+                            <hr>
+                            <div class="row d-flex justify-content-between w-100 px-3" id="oneGift">
+                                
+                                <div class="col-6">
+                                    <span id="gift-name"><i class="fas fa-dot-circle"></i> {{ gift.gift }}</span>
+                                </div>
+
+                                <div class="col-4">
+                                    <span>{{ gift.year }} </span>
+                                </div>
+                                <div class="col-2">
+                                    <span @click="removeGift(id, index)" class="btn btn-danger"><i class="fas fa-times"></i></span>
+                                </div>
+                                
+                            </div>
                         </div>
                     </div>
                     

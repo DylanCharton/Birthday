@@ -141,7 +141,7 @@ p{
 .img-wrapper{
     height : 10rem;
     width : 10rem;
-    background-image: url('assets/img/random.jpg');
+    
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -174,4 +174,9 @@ p{
 }
 #gift-name{
     font-weight: 600;
+}
+
+#gift-list {
+    overflow: scroll;
+    height : 35vh;
 }
