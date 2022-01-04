@@ -38,12 +38,15 @@
                     <div class="d-flex justify-content-between">
                         <div class="col-2">
                             <div id="supposed-to-be-an-img" class="ms-1">
-
+                                <img v-bind:src="friend.picture" alt="Picture of friend">
                             </div>
                         </div>
                         <div class="col-10 ms-2">
                             <p class="friends-name">{{ friend.name }}</p>
                             <p class="friends-birth">est né.e le {{ friend.date }}</p>
+                            <p> {{getAge(friend.date)}} ans</p>
+                            <p>{{ countdown(friend.date)}}</p>
+                            
                         </div>
 
 
@@ -104,7 +107,7 @@
                     </div>
                     <h2>Profil</h2>
                     <div class="img-wrapper">
-                        <!-- <img v-bind:src="picture" alt="un truc"> -->
+                        <img v-bind:src="picture" alt="un truc">
                         <!-- Later on I will put some imbricated style to put the dynamic img of the person as a background, the css class is ready -->
                     </div>
                 </div>
@@ -112,7 +115,7 @@
                 <div class="d-flex flex-column align-items-center mt-5">
                     <h2>{{name}}</h2>
                     <p> {{ date }}</p>
-                    <p>{{ picture }}</p>
+                    
                     
                     
                 </div>

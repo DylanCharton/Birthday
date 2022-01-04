@@ -77,6 +77,11 @@ let app = new Vue({
             this.saveFriends();
             
         },
+        removeGift(x){
+
+            this.friends[x].gifts.splice(x, 1);
+            this.saveFriends();
+        },
         saveFriends() {
             const parsedFriends = JSON.stringify(this.friends);
             localStorage.setItem('friends', parsedFriends);
@@ -97,7 +102,8 @@ let app = new Vue({
             this.name = this.friends[who].name;
             this.date = this.friends[who].date;
             this.id = this.friends[who].id;
-            this.gifts = this.friends[who].gifts
+            this.gifts = this.friends[who].gifts;
+            this.picture = this.friends[who].picture;
             
             
             
@@ -127,17 +133,6 @@ let app = new Vue({
             this.saveFriends();
 
         },
-        removeGift(x, index){
-
-            this.friends[x].gifts.splice(index, 1);
-            
-            for(i = 0; i < this.friends[x].gifts.length; i++){
-                
-                this.friends[x].gifts[i].id = i;
-            }
-            
-            this.saveFriends();
-        },
         getBaseSixtyFour(){
             const file = document.querySelector('input[type="file"]').files[0];
             
@@ -154,6 +149,75 @@ let app = new Vue({
 
 
             
-        }
+        },
+        getAge(birthdate){
+            let date = new Date();
+            let year = date.getFullYear();
+            let birthyear = new Date(birthdate).getFullYear();
+            let age = year - birthyear;
+            countdown = this.countdown(birthdate);
+
+            
+            // trying to change the age dynamically because it only reacts to the year and not the month or day
+            let friendDate = new Date(birthdate)
+            let friendMonth = friendDate.getUTCMonth();
+            let friendDay = friendDate.getUTCDate();
+
+            let currentMonth = date.getUTCMonth();
+            let currentDay = date.getUTCDate();
+
+            if(currentMonth < friendMonth){
+                age = age - 1
+                
+            } else if (currentMonth == friendMonth){
+
+                if(currentDay < friendDay){
+                    age = age - 1
+                }
+            }
+
+            
+
+
+            return age;
+        },
+        countdown(birthdate){
+            let date = new Date();
+            let year = date.getFullYear();
+            let friendDate = new Date(birthdate)
+            let friendMonth = friendDate.getUTCMonth();
+            let friendDay = friendDate.getUTCDate();
+            let countdown = new Date(year, friendMonth, friendDay)
+
+            
+
+            if (date.getMonth()+1 > friendMonth && date.getDate()+1 > friendDay){
+                countdown.setFullYear(countdown.getFullYear()+1);
+            }
+            let unixDay = 86400000;
+            finalCountdown = Math.ceil((countdown.getTime() - date.getTime()) / (unixDay))
+
+            if(finalCountdown == 365){
+                finalCountdown = "Aujourd'hui";
+            } else if(finalCountdown == 1){
+                finalCountdown = "Demain"
+            } else {
+                finalCountdown = "dans " + finalCountdown + " jours"
+            }
+
+            return finalCountdown;
+        },
+        removeGift(x, index){
+
+            this.friends[x].gifts.splice(index, 1);
+            
+            for(i = 0; i < this.friends[x].gifts.length; i++){
+                
+                this.friends[x].gifts[i].id = i;
+            }
+            
+            this.saveFriends();
+        },
+        
     }
 })
