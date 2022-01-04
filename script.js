@@ -80,7 +80,7 @@ let app = new Vue({
         },
         removeFriend(x) {
 
-            // this.friends.splice(x, 1);
+            this.friends.splice(x, 1);
             for(i = 0; i < this.friends.length; i++){
 
                 this.friends[i].id = i;

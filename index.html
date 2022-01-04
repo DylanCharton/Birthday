@@ -25,8 +25,9 @@
             Pas de résultats pour cette recherche.
         </span>
         <div v-if="!searchKey && filteredList.length == []" id="empty-list-msg" class="mt-5 px-3 text-center">
-            <h2 class="text-center">Vous n'avez pas encore d'anniversaires dans votre liste</h2>
             <i class="far fa-sad-tear"></i>
+            <h2 class="text-center">Vous n'avez pas encore d'anniversaires dans votre liste</h2>
+            <i @click="showCreate = !showCreate, overlay = !overlay" class="fas fa-plus"></i>
         </div>
         <div v-for="(friend, index) in filteredList" :key="friend.id" class="w-100 d-flex">
 
@@ -83,28 +84,28 @@
                 </div>
                 <div id="name-input" class="m-2">
                     <label for="name">Nom :</label>
-                    <input v-model="newLastName" name="name" id="lastname" type="text">
+                    <input v-model="newLastName" name="name" id="lastname" type="text" required>
                 </div>
 
                 <div id="date-input" class="m-2">
                     <label for="date" class="col-3">Date :</label>
-                    <input v-model="newDate" name="date" id="date" type="date">
-                </div>
-                <div id="file-input" class="m-2 mb-4 d-flex justify-content-center">
-                    <label for="photo" class="btn btn-primary">
-                        <input @change="getBaseSixtyFour()" name="photo" id="photo" type="file" hidden>
-                        <i class="fas fa-file-upload"></i> Choisir une photo
-                    </label>
-
+                    <input v-model="newDate" name="date" id="date" type="date" required>
                 </div>
                 <div id="genre-input" class="m-2 mb-4 d-flex">
                     <label for="genre" class="col-3">Genre :</label>
                     <select v-model="newGenre" name="genre" id="select-genre" class="col-9" required>
                         <option value="h">Masculin</option>
                         <option value="f">Féminin</option>
-                        <option value="nb">Non-binaire</option>
                     </select>
                 </div>
+                <div id="file-input" class="m-2 mb-4 d-flex justify-content-center">
+                    <label for="photo" class="btn btn-primary">
+                        <input @change="getBaseSixtyFour()" name="photo" id="photo" type="file" hidden required>
+                        <i class="fas fa-file-upload"></i> Choisir une photo
+                    </label>
+
+                </div>
+                
                 <div class="d-flex justify-content-between pb-3">
                     <button @click="showCreate = !showCreate, overlay = !overlay"
                         class="btn btn-primary mx-3">Retour</button>

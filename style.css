@@ -112,6 +112,8 @@ p{
     z-index : 10;
 }
 
+
+
 #friend{
     border-top : 1px solid #11192d;
 }
@@ -126,6 +128,10 @@ p{
 #empty-list-msg > i{
     color: rgb(136, 136, 136);
     font-size : 4rem;
+}
+
+.fa-plus {
+    color :#e1ad01!important;
 }
 
 /* Placeholder class */
