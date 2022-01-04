@@ -22,10 +22,12 @@ let app = new Vue({
             if (localStorage.getItem('friends')) {
                 try {
                     this.friends = JSON.parse(localStorage.getItem('friends'));
-                    this.gifts = JSON.parse(localStorage.getItem('gifts'));
+
                 } catch (e) {
+                    console.log("Erreur", e)
                     localStorage.removeItem('friends');
                 }
+                
                 
             }
         },
@@ -110,7 +112,9 @@ let app = new Vue({
             return id;
         },
         getUser(who){
-            this.friendIndex = who;
+            console.log(who)
+            console.log(this.friends[who])
+            
             this.name = this.friends[who].name;
             this.lastname = this.friends[who].lastname
             this.date = this.friends[who].date;
@@ -118,7 +122,7 @@ let app = new Vue({
             this.id = this.friends[who].id;
             this.gifts = this.friends[who].gifts;
             this.picture = this.friends[who].picture;
-            
+            this.friendIndex = who;
             
             
         },
