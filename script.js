@@ -80,7 +80,7 @@ let app = new Vue({
         },
         removeFriend(x) {
 
-            this.friends.splice(x, 1);
+            // this.friends.splice(x, 1);
             for(i = 0; i < this.friends.length; i++){
 
                 this.friends[i].id = i;
@@ -91,16 +91,9 @@ let app = new Vue({
             this.saveFriends();
             
         },
-        removeGift(x){
-
-            this.friends[x].gifts.splice(x, 1);
-            this.saveFriends();
-        },
         saveFriends() {
             const parsedFriends = JSON.stringify(this.friends);
             localStorage.setItem('friends', parsedFriends);
-            const parsedGifts = JSON.stringify(this.gifts);
-            localStorage.setItem('gifts', parsedGifts);
         },
         generateId(){
             let id = this.friends.length;
