@@ -3,12 +3,16 @@ let app = new Vue({
     data: {
         friends: [],
         newName: null,
+        newLastName : null,
         newDate: null,
+        newGenre : null,
         searchKey:'',
         searchGift:'',
         showCreate : true,
         showOne : true,
         showCreateGift : true,
+        overlay : true,
+        overlayG : true,
         friendIndex : "",
         newPhoto : "",
         newGift : null,
@@ -22,6 +26,7 @@ let app = new Vue({
                 } catch (e) {
                     localStorage.removeItem('friends');
                 }
+                
             }
         },
     computed: {
@@ -49,14 +54,21 @@ let app = new Vue({
             if (!this.newName && !this.newDate) {
                 return;
             }
+            
+            let birthdate = new Date(this.newDate)
+
+            let frBirthdate = birthdate.toLocaleDateString("fr-FR");
 
             let id = this.generateId();
             this.getBaseSixtyFour()
-            console.log(this.newPhoto)
+            
             this.friends.push({
                 id : id,
                 name: this.newName,
+                lastname : this.newLastName,
                 date: this.newDate,
+                datefr : frBirthdate,
+                genre : this.newGenre,
                 gifts : [],
                 picture : this.newPhoto,
             });
@@ -100,7 +112,9 @@ let app = new Vue({
         getUser(who){
             this.friendIndex = who;
             this.name = this.friends[who].name;
+            this.lastname = this.friends[who].lastname
             this.date = this.friends[who].date;
+            this.datefr = this.friends[who].datefr;
             this.id = this.friends[who].id;
             this.gifts = this.friends[who].gifts;
             this.picture = this.friends[who].picture;
@@ -139,13 +153,10 @@ let app = new Vue({
             const reader = new FileReader();
             
             reader.onloadend = function(){
-                app.newPhoto = reader.result
-                console.log(app.newPhoto);
-
-                
+                app.newPhoto = reader.result  
             };
             reader.readAsDataURL(file);
-            console.log(file)
+            
 
 
             
@@ -183,8 +194,9 @@ let app = new Vue({
         },
         countdown(birthdate){
             let date = new Date();
+            
             let year = date.getFullYear();
-            let friendDate = new Date(birthdate)
+            let friendDate = new Date(birthdate);
             let friendMonth = friendDate.getUTCMonth();
             let friendDay = friendDate.getUTCDate();
             let countdown = new Date(year, friendMonth, friendDay)

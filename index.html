@@ -15,7 +15,7 @@
 
 <body>
     <section id="app" class="d-flex flex-column container-fluid align-items-center">
-        <h1 class="text-center my-3">Mes Anniversaires</h1>
+        <h1 class="my-3 toto">Anniversaire de mes amis</h1>
         <input v-model="searchKey" type="search" name="search" id="search" autocomplete="off"
             placeholder="Rechercher..." class="my-2">
         <span v-if="searchKey && filteredList.length >=1">
@@ -29,68 +29,86 @@
             <i class="far fa-sad-tear"></i>
         </div>
         <div v-for="(friend, index) in filteredList" :key="friend.id" class="w-100 d-flex">
-            
+
 
             <div class="d-flex w-100 py-2" id="friend">
 
                 <div @click="getUser(friend.id), showOne = !showOne" class="d-flex flex-column col-10">
 
-                    <div class="d-flex justify-content-between">
-                        <div class="col-2">
-                            <div id="supposed-to-be-an-img" class="ms-1">
-                                <img v-bind:src="friend.picture" alt="Picture of friend">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="col-3 h-100">
+                            <div id="supposed-to-be-an-img" class="ms-1 d-flex justify-content-center align-items-center">
+                                <img v-bind:src="friend.picture" alt="Picture of friend" class="img-fluid">
                             </div>
                         </div>
-                        <div class="col-10 ms-2">
-                            <p class="friends-name">{{ friend.name }}</p>
-                            <p class="friends-birth">est né.e le {{ friend.date }}</p>
-                            <p> {{getAge(friend.date)}} ans</p>
-                            <p>{{ countdown(friend.date)}}</p>
-                            
-                        </div>
+                        <div class="col-9 ms-2">
+                            <p class="friends-name">{{ friend.name }} {{ friend.lastname }}</p>
+                            <p class="friends-birth">
+                                Né<span v-if="friend.genre == 'f' ">e</span> le {{ friend.datefr }}
+                            </p>
+                            <p> {{getAge(friend.date)+1}} ans {{ countdown(friend.date)}} </p>
+                            <p></p>
 
+                        </div>
+                        <div class="col-2" id="trash">
+                            <button @click="removeFriend(index)" class="btn btn-outline-danger"><i
+                                    class="far fa-trash-alt"></i></button>
+                        </div>
 
                     </div>
 
                 </div>
-                <div class="col-2" id="trash">
-                    <button @click="removeFriend(index)" class="btn btn-outline-danger"><i
-                            class="far fa-trash-alt"></i></button>
-                </div>
+                
             </div>
 
         </div>
         <!-- Trigger the creation pop-up -->
-        <div v-on:click="showCreate = !showCreate" id="trigger-creation"
+        <div v-on:click="showCreate = !showCreate, overlay = !overlay" id="trigger-creation"
             class="d-flex align-items-center w-100 justify-content-center">
-            <i class="fas fa-user-plus"></i>
-            <h2 class="mx-2">Ajouter un anniversaire</h2>
+            
+            <h2 class="mx-2"><i class="fas fa-user-plus"></i> Ajouter un ami</h2>
 
         </div>
 
         <transition name="slideCreate">
             <!-- Friend creation -->
             <div v-if="!showCreate" class="d-flex flex-column justify-content-center w-100" id="create-friend">
-                <h2 class="text-center pt-2">Ajouter un anniversaire</h2>
+                <div class="d-flex justify-content-center align-items-center col-12" id="title-modal">
+                    <h2 class="text-center pt-2"><i class="fas fa-user-plus"></i> Ajouter un ami</h2>
+                </div>
+                <div id="name-input" class="m-2">
+                    <label for="name">Prénom :</label>
+                    <input v-model="newName" name="name" id="name" type="text" required>
+                </div>
                 <div id="name-input" class="m-2">
                     <label for="name">Nom :</label>
-                    <input v-model="newName" name="name" id="name" type="text">
+                    <input v-model="newLastName" name="name" id="name" type="text" required>
                 </div>
 
                 <div id="date-input" class="m-2">
-                    <label for="date">Date :</label>
-                    <input v-model="newDate" name="date" id="date" type="date">
+                    <label for="date" class="col-3">Date :</label>
+                    <input v-model="newDate" name="date" id="date" type="date" required>
                 </div>
-                <div id="file-input" class="m-2 mb-4">
-                    <label for="photo">Photo :</label>
-                    <input @change="getBaseSixtyFour()" name="photo" id="photo" type="file">
+                <div id="file-input" class="m-2 mb-4 d-flex justify-content-center">
+                    <label for="photo" class="btn btn-primary">
+                        <input @change="getBaseSixtyFour()" name="photo" id="photo" type="file" hidden required>
+                        <i class="fas fa-file-upload"></i> Choisir une photo
+                    </label>
+                    
+                </div>
+                <div id="genre-input" class="m-2 mb-4 d-flex">
+                    <label for="genre" class="col-3">Genre :</label>
+                    <select v-model="newGenre" name="genre" id="select-genre" class="col-9" required>
+                        <option value="h">Masculin</option>
+                        <option value="f">Féminin</option>
+                        <option value="nb">Non-binaire</option>
+                    </select>
                 </div>
                 <div class="d-flex justify-content-between pb-3">
-                    <button @click="showCreate = !showCreate" class="btn btn-primary mx-3">Retour</button>
+                    <button @click="showCreate = !showCreate, overlay = !overlay" class="btn btn-primary mx-3">Retour</button>
 
                     <button @click="addFriend(), showCreate = !showCreate" class="btn btn-primary mx-3"><i
-                            class="fas fa-user-plus"></i> Ajouter un
-                        anniversaire</button>
+                            class="fas fa-user-plus"></i> Ajouter</button>
                 </div>
 
 
@@ -100,37 +118,37 @@
         <!-- Screen of one friend -->
         <transition name="slideOne">
             <div id="oneFriend" v-if="!showOne">
-                
+
                 <div id="top-part" class="d-flex flex-column align-items-center">
                     <div class="w-100">
                         <i @click="showOne = !showOne" class="fas fa-chevron-left ms-3 text-white mt-3"></i>
                     </div>
-                    <h2>Profil</h2>
-                    <div class="img-wrapper">
+                    <h2>{{ name }} {{ lastname }}</h2>
+                    <div class="img-wrapper d-flex justify-content-center">
                         <img v-bind:src="picture" alt="un truc">
                         <!-- Later on I will put some imbricated style to put the dynamic img of the person as a background, the css class is ready -->
                     </div>
                 </div>
 
                 <div class="d-flex flex-column align-items-center mt-5">
-                    <h2>{{name}}</h2>
-                    <p> {{ date }}</p>
-                    
-                    
-                    
+                    <p> {{ datefr }}</p>
+
+
+
+
                 </div>
 
                 <div>
                     <div class="d-flex justify-content-center">
                         <input v-model="searchGift" type="search" name="searchGift" id="searchGift" autocomplete="off"
-                        placeholder="Rechercher un cadeau..." class="my-2">
-                        
+                            placeholder="Rechercher un cadeau..." class="my-2">
+
                     </div>
                     <div id="gift-list">
-                        <div v-for="(gift, index) in filteredGift" >
-                            <hr>
-                            <div class="row d-flex justify-content-between w-100 px-3" id="oneGift">
-                                
+                        <div v-for="(gift, index) in filteredGift">
+                            
+                            <div class="row d-flex justify-content-between px-3 py-2" id="oneGift">
+
                                 <div class="col-6">
                                     <span id="gift-name"><i class="fas fa-dot-circle"></i> {{ gift.gift }}</span>
                                 </div>
@@ -139,16 +157,17 @@
                                     <span>{{ gift.year }} </span>
                                 </div>
                                 <div class="col-2">
-                                    <span @click="removeGift(id, index)" class="btn btn-danger"><i class="fas fa-times"></i></span>
+                                    <span @click="removeGift(id, index)" class="btn btn-outline-danger"><i
+                                            class="fas fa-times"></i></span>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
 
-                <div v-on:click="showCreateGift = !showCreateGift" id="trigger-creation"
+                <div v-on:click="showCreateGift = !showCreateGift, overlay = !overlay" id="trigger-creation"
                     class="d-flex align-items-center w-100 justify-content-center">
                     <i class="fas fa-gift"></i>
                     <h2 class="mx-2">Ajouter un cadeau</h2>
@@ -161,10 +180,13 @@
 
         <!-- Gift creation -->
         <transition name="slideGift">
-            
+
             <div v-if="!showCreateGift" class="d-flex flex-column justify-content-center w-100" id="create-gift">
-                
-                <h2 class="text-center pt-2">Ajouter un cadeau</h2>
+                <div class="d-flex justify-content-center align-items-center col-12" id="title-modal">
+                    <i class="fas fa-gift"></i>
+                    <h2 class="text-center pt-2 mx-2">Ajouter un cadeau</h2>
+                </div>
+                    
                 <div id="year-input" class="m-2">
                     <label for="year">Année :</label>
                     <input v-model="newYear" name="year" id="year" type="number">
@@ -175,7 +197,7 @@
                     <input v-model="newGift" name="gift" id="gift" type="gift">
                 </div>
                 <div class="d-flex justify-content-between pb-3">
-                    <button @click="showCreateGift = !showCreateGift" class="btn btn-primary mx-3">Retour</button>
+                    <button @click="showCreateGift = !showCreateGift, overlay = !overlay" class="btn btn-primary mx-3">Retour</button>
 
                     <button @click="addGift(id), showCreateGift = !showCreateGift" class="btn btn-primary mx-3"><i
                             class="fas fa-gift"></i> Ajouter un
@@ -183,7 +205,13 @@
                 </div>
             </div>
         </transition>
-
+        <transition name ="fade">
+           <div v-if="!overlay" @click="overlay = !overlay, showCreate = !showCreate" id="blackscreen"></div> 
+        </transition>
+        <transition name ="fade">
+           <div v-if="!overlay" @click="overlay = !overlay, showCreateGift = !showCreateGift" id="blackscreenG"></div> 
+        </transition>
+        
 
 
 
