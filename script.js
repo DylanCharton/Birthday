@@ -34,9 +34,11 @@ let app = new Vue({
     computed: {
         
         filteredList(){
-            return this.friends.filter((friends) =>{
+            
+            return _.orderBy(this.friends.filter((friends) =>{
                 return friends.name.toLowerCase().includes(this.searchKey.toLowerCase())
-            })
+            }), 'countdown', 'asc')
+            
         },
         filteredGift(){
             
@@ -73,6 +75,7 @@ let app = new Vue({
                 genre : this.newGenre,
                 gifts : [],
                 picture : this.newPhoto,
+                countdown : this.countdown(this.newDate),
             });
             this.newName = '';
             this.newDate = '';
@@ -105,8 +108,6 @@ let app = new Vue({
             return id;
         },
         getUser(who){
-            console.log(who)
-            console.log(this.friends[who])
             
             this.name = this.friends[who].name;
             this.lastname = this.friends[who].lastname
@@ -207,11 +208,7 @@ let app = new Vue({
             finalCountdown = Math.ceil((countdown.getTime() - date.getTime()) / (unixDay))
 
             if(finalCountdown == 365){
-                finalCountdown = "Aujourd'hui";
-            } else if(finalCountdown == 1){
-                finalCountdown = "Demain"
-            } else {
-                finalCountdown = "dans " + finalCountdown + " jours"
+                finalCountdown = 0;
             }
 
             return finalCountdown;

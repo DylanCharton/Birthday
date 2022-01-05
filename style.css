@@ -6,9 +6,17 @@ input[name="name"], input[name="date"], input[name="year"], input[name="gift"], 
     border : 0;
 }
 
+select{
+    background-color : #fff;
+}
+
 .btn-primary {
     background-color : #e1ad01;
     border-color : #e1ad01;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color : #b18700;
+    border-color : #b18700;
 }
 .btn-outline-danger {
     border-color : #e1ad01;
@@ -138,10 +146,11 @@ p{
 #supposed-to-be-an-img{
     background-color : grey;
     border-radius: 50%;
-    width: 100%;
-    height : 100%;
+    width: 5rem;
+    height : 5rem;
     overflow : hidden;
     object-fit:cover;
+    border: 1px solid #11192d;
 }
 #supposed-to-be-an-img > img {
     object-fit:cover;
